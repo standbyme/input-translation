@@ -8,7 +8,7 @@ import pyperclip
 from dotenv import load_dotenv
 from openai import OpenAI
 
-MODEL = "gpt-5-nano"
+MODEL = "gpt-5-mini"
 
 
 logging.basicConfig(
