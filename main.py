@@ -12,7 +12,7 @@ MODEL = "gpt-5-nano"
 
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
@@ -40,7 +40,7 @@ def get_client() -> OpenAI:
 client = get_client()
 
 
-def safe_copy_selected_text(delay: float = 0.05) -> str:
+def safe_copy_selected_text(delay: float = 0.5) -> str:
     """Copy selected text; restore clipboard on failure."""
     logger.debug("Starting safe copy with delay %.3f", delay)
     original_clipboard = pyperclip.paste()
@@ -108,12 +108,12 @@ def translate_and_replace():
 
 if __name__ == "__main__":
     logger.info("Starting input translation daemon...")
-    logger.info("Press Ctrl+Shift+T to translate selected text")
+    logger.info("Press Ctrl+Alt+T to translate selected text")
     logger.debug("Logger level set to DEBUG")
 
     try:
-        # Register hotkey: Ctrl+Shift+T triggers translate_and_replace
-        keyboard.add_hotkey("ctrl+shift+t", translate_and_replace)
+        # Register hotkey: Ctrl+Alt+T triggers translate_and_replace
+        keyboard.add_hotkey("ctrl+alt+t", translate_and_replace)
         logger.info("Hotkey registered successfully")
         logger.debug("Awaiting hotkey activations")
 
