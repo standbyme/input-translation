@@ -101,7 +101,11 @@ def translate_and_replace():
         logger.exception(
             "Translation failed for text (%d chars): %s\nException: %s",
             len(text_to_translate),
-            text_to_translate[:100] + "..." if len(text_to_translate) > 100 else text_to_translate,
+            (
+                text_to_translate[:100] + "..."
+                if len(text_to_translate) > 100
+                else text_to_translate
+            ),
             e,
         )
 
