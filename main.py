@@ -17,7 +17,6 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
         logging.FileHandler("translation.log"),
-        logging.StreamHandler(),
     ],
 )
 logger = logging.getLogger(__name__)
@@ -55,6 +54,8 @@ def safe_copy_selected_text(delay: float = 0.5) -> str:
 
         keyboard.send("ctrl+c")
         logger.debug("Sent Ctrl+C to copy selection")
+        # use keyboard type "translating..." to indicate progress
+        keyboard.write(" translating...")
         time.sleep(delay)
         copied_text = pyperclip.paste().strip()
         logger.debug("Copied text length: %d", len(copied_text))
