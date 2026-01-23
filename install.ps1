@@ -23,9 +23,7 @@ $shortcut.Arguments = "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$runS
 $shortcut.WorkingDirectory = $scriptDir
 $shortcut.IconLocation = "powershell.exe,0"
 $shortcut.Description = "Input Translation Tool"
-# Set hotkey: Ctrl+Alt+T
-$shortcut.Hotkey = "CTRL+ALT+T"
 $shortcut.Save()
 
 Write-Host "Shortcut created successfully at: $shortcutPath"
-Write-Host "Hotkey set to: Ctrl+Alt+T"
+Write-Host "Hotkey is now handled by the Python program (Ctrl+Shift+T)"

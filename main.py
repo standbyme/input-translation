@@ -91,4 +91,19 @@ def translate_and_replace():
 
 
 if __name__ == "__main__":
-    translate_and_replace()
+    logger.info("Starting input translation daemon...")
+    logger.info("Press Ctrl+Shift+T to translate selected text")
+
+    try:
+        # Register hotkey: Ctrl+Shift+T triggers translate_and_replace
+        keyboard.add_hotkey("ctrl+shift+t", translate_and_replace)
+        logger.info("Hotkey registered successfully")
+
+        # Keep the program running
+        keyboard.wait()
+    except KeyboardInterrupt:
+        logger.info("Shutdown requested by user")
+    except Exception as e:
+        logger.exception("Daemon error: %s", e)
+    finally:
+        logger.info("Input translation daemon stopped")
