@@ -4,16 +4,16 @@
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $runScript = Join-Path $scriptDir "run.ps1"
 
-# Get the Start Menu Programs folder
-$startMenuPath = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs"
+# Get the Startup folder
+$startupPath = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\Startup"
 
 # Ensure the directory exists
-if (-not (Test-Path $startMenuPath)) {
-    New-Item -Path $startMenuPath -ItemType Directory -Force | Out-Null
+if (-not (Test-Path $startupPath)) {
+    New-Item -Path $startupPath -ItemType Directory -Force | Out-Null
 }
 
 # Define the shortcut path
-$shortcutPath = Join-Path $startMenuPath "Input Translation.lnk"
+$shortcutPath = Join-Path $startupPath "Input Translation.lnk"
 
 # Create the shortcut using COM object
 $WScriptShell = New-Object -ComObject WScript.Shell
