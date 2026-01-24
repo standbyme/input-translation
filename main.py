@@ -16,11 +16,10 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
-        logging.FileHandler("translation.log"),
+        logging.FileHandler("translation.log", mode="w"),
     ],
 )
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 def get_client() -> OpenAI:
