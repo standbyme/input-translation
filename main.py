@@ -84,6 +84,7 @@ def translate_and_replace():
                 },
                 {"role": "user", "content": text_to_translate},
             ],
+            service_tier="priority",
         )
 
         translated_text = response.output_text.strip()
