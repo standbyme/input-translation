@@ -38,7 +38,7 @@ def get_client() -> OpenAI:
 client = get_client()
 
 
-def safe_copy_selected_text(delay: float = 0.5) -> str:
+def safe_copy_selected_text(delay: float = 1) -> str:
     """Copy selected text; restore clipboard on failure."""
     logger.debug("Starting safe copy with delay %.3f", delay)
     original_clipboard = pyperclip.paste()
