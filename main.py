@@ -41,24 +41,34 @@ client = get_client()
 
 def safe_copy_selected_text(delay: float = 1) -> str:
     """Copy selected text; restore clipboard on failure."""
-    logger.debug("Starting safe copy with delay %.3f", delay)
+    time.sleep(0.1 * delay)
+    logger.debug("Starting safe copy")
     original_clipboard = pyperclip.paste()
     logger.debug("Captured original clipboard (%d chars)", len(original_clipboard))
     pyperclip.copy("")
     logger.debug("Clipboard cleared")
 
     try:
-        keyboard.send("ctrl+a")
-        logger.debug("Sent Ctrl+A to select all")
-        time.sleep(delay)
+        copied_text = ""
+        pyperclip.copy("")  # Clear clipboard before each attempt
 
-        keyboard.send("ctrl+c")
+        keyboard.press_and_release("ctrl+a")
+        logger.debug("Sent Ctrl+A to select all")
+        time.sleep(0.05 * delay)
+
+        keyboard.press_and_release("ctrl+c")
         logger.debug("Sent Ctrl+C to copy selection")
-        # use keyboard type "translating..." to indicate progress
-        keyboard.write(" translating...")
-        time.sleep(delay)
+        time.sleep(0.05 * delay)
+
         copied_text = pyperclip.paste().strip()
-        logger.debug("Copied text length: %d", len(copied_text))
+        logger.debug("Clipboard still empty, retrying...")
+
+        # Show progress indicator after successfully copying
+        if copied_text:
+            keyboard.write(" translating...")
+        else:
+            keyboard.write(" no text copied")
+
         return copied_text
     finally:
         # Best effort to avoid losing user's clipboard
@@ -134,10 +144,16 @@ if __name__ == "__main__":
 
     try:
         # Register hotkey: Ctrl+Alt+T triggers translate_and_replace
-        keyboard.add_hotkey("ctrl+alt+t", translate_and_replace)
+        keyboard.add_hotkey(
+            "ctrl+alt+t",
+            translate_and_replace,
+        )
         logger.info("Hotkey Ctrl+Alt+T registered for translation")
         # Register hotkey: Ctrl+Alt+R triggers program restart
-        keyboard.add_hotkey("ctrl+alt+r", restart_program)
+        keyboard.add_hotkey(
+            "ctrl+alt+r",
+            restart_program,
+        )
         logger.info("Hotkey Ctrl+Alt+R registered for restart")
         logger.debug("Awaiting hotkey activations")
 
