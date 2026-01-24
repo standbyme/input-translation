@@ -27,9 +27,9 @@ uv run pythonw main.py
 ```
 \n
 Usage
-\n
-- With the program running, press `Ctrl+Alt+T` to translate the currently selected text.
- - With the program running, press `Ctrl+Alt+T` to translate the currently selected text.
+
+- Press `Ctrl+Alt+T` to translate the currently selected text.
+- Press `Ctrl+Alt+R` to restart the program.
 
 Startup Shortcut (optional)
 

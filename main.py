@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 import time
+from pathlib import Path
 
 import keyboard
 import pyperclip
@@ -65,6 +66,21 @@ def safe_copy_selected_text(delay: float = 1) -> str:
         logger.debug("Restored original clipboard")
 
 
+def restart_program():
+    """Restart the program by launching run.ps1 and exiting."""
+    logger.info("Restart hotkey triggered")
+    script_dir = Path(__file__).parent
+    run_script = script_dir / "run.ps1"
+    try:
+        logger.info("Launching restart via run.ps1")
+        os.system(f'powershell -NoProfile -ExecutionPolicy Bypass -File "{run_script}"')
+        logger.info("Exiting for restart")
+    except Exception as e:
+        logger.exception("Failed to restart: %s", e)
+    finally:
+        sys.exit(0)
+
+
 def translate_and_replace():
     text_to_translate = safe_copy_selected_text()
     logger.debug("Text to translate length: %d", len(text_to_translate))
@@ -119,7 +135,10 @@ if __name__ == "__main__":
     try:
         # Register hotkey: Ctrl+Alt+T triggers translate_and_replace
         keyboard.add_hotkey("ctrl+alt+t", translate_and_replace)
-        logger.info("Hotkey registered successfully")
+        logger.info("Hotkey Ctrl+Alt+T registered for translation")
+        # Register hotkey: Ctrl+Alt+R triggers program restart
+        keyboard.add_hotkey("ctrl+alt+r", restart_program)
+        logger.info("Hotkey Ctrl+Alt+R registered for restart")
         logger.debug("Awaiting hotkey activations")
 
         # Keep the program running
