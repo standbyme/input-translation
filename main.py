@@ -81,6 +81,9 @@ def restart_program():
     logger.info("Restart hotkey triggered")
     script_dir = Path(__file__).parent
     run_script = script_dir / "run.ps1"
+    keyboard.unhook_all_hotkeys()
+    logger.debug("Unregistered all hotkeys before restart")
+
     try:
         logger.info("Launching restart via run.ps1")
         os.system(f'powershell -NoProfile -ExecutionPolicy Bypass -File "{run_script}"')
