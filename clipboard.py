@@ -12,7 +12,7 @@ import time
 import keyboard
 import pyperclip
 
-from config import CLIPBOARD_DELAY, COPY_SLEEP
+from config import CLIPBOARD_DELAY, COPY_SLEEP, PASTE_SLEEP
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +83,6 @@ def paste_text(text: str) -> None:
     logger.debug("Copied text to clipboard")
 
     keyboard.send("ctrl+a")
-    time.sleep(0.01)
+    time.sleep(PASTE_SLEEP)
     keyboard.press_and_release("ctrl+v")
     logger.debug("Replaced selected text")

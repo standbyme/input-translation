@@ -15,6 +15,7 @@ def test_config_imports():
     assert hasattr(config, 'MODEL')
     assert hasattr(config, 'TRANSLATE_HOTKEY')
     assert hasattr(config, 'RESTART_HOTKEY')
+    assert config.MODEL == "gpt-4o-mini", f"Expected gpt-4o-mini but got {config.MODEL}"
     assert config.TRANSLATE_HOTKEY == "ctrl+alt+t"
     assert config.RESTART_HOTKEY == "ctrl+alt+r"
     print("✓ Config module imports and values correct")

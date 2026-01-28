@@ -7,6 +7,7 @@ This module defines the handlers for registered keyboard shortcuts:
 
 import logging
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -83,7 +84,10 @@ class HotkeyHandler:
 
         try:
             logger.info("Launching restart via run.ps1")
-            os.system(f'powershell -NoProfile -ExecutionPolicy Bypass -File "{run_script}"')
+            subprocess.Popen(
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(run_script)],
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+            )
             logger.info("Exiting for restart")
         except Exception as e:
             logger.exception("Failed to restart: %s", e)

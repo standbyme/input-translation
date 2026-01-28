@@ -75,6 +75,9 @@ class TranslationService:
             ],
         )
 
+        if not response.choices or not response.choices[0].message.content:
+            raise ValueError("Empty response from OpenAI API")
+        
         translated_text = response.choices[0].message.content.strip()
         logger.debug("Received translated text length: %d", len(translated_text))
         return translated_text
