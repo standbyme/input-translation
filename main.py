@@ -1,4 +1,9 @@
-"""Main entry point for the input translation daemon."""
+"""Main entry point for the input translation daemon.
+
+This module initializes the translation daemon, registers hotkeys,
+and manages the main event loop. The daemon runs in the background
+and responds to configured keyboard shortcuts.
+"""
 
 import logging
 

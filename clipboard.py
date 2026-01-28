@@ -1,4 +1,10 @@
-"""Clipboard operations for the input translation daemon."""
+"""Clipboard operations for the input translation daemon.
+
+This module handles all clipboard-related functionality, including:
+- Safely copying selected text while preserving the original clipboard
+- Pasting translated text back to the active window
+- Managing keyboard shortcuts for text selection and pasting
+"""
 
 import logging
 import time
@@ -12,7 +18,21 @@ logger = logging.getLogger(__name__)
 
 
 def safe_copy_selected_text(delay: float = CLIPBOARD_DELAY) -> str:
-    """Copy selected text; restore clipboard on failure."""
+    """Copy selected text while preserving the original clipboard content.
+    
+    This function:
+    1. Saves the current clipboard content
+    2. Clears the clipboard
+    3. Selects all text (Ctrl+A) and copies it (Ctrl+C)
+    4. Retrieves the copied text
+    5. Restores the original clipboard content
+    
+    Args:
+        delay: Timing multiplier for keyboard operations (default from config)
+        
+    Returns:
+        The copied text as a string, or empty string if nothing was copied
+    """
     time.sleep(0.1 * delay)
     logger.debug("Starting safe copy")
     original_clipboard = pyperclip.paste()
@@ -49,7 +69,16 @@ def safe_copy_selected_text(delay: float = CLIPBOARD_DELAY) -> str:
 
 
 def paste_text(text: str) -> None:
-    """Paste text to replace current selection."""
+    """Paste text to replace the current selection.
+    
+    This function:
+    1. Copies the provided text to the clipboard
+    2. Selects all text in the active field (Ctrl+A)
+    3. Pastes the clipboard content (Ctrl+V)
+    
+    Args:
+        text: The text to paste
+    """
     pyperclip.copy(text)
     logger.debug("Copied text to clipboard")
 

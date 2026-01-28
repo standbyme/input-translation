@@ -1,4 +1,9 @@
-"""Hotkey handlers for the input translation daemon."""
+"""Hotkey handlers for the input translation daemon.
+
+This module defines the handlers for registered keyboard shortcuts:
+- Translation hotkey: Copies, translates, and replaces selected text
+- Restart hotkey: Restarts the daemon process
+"""
 
 import logging
 import os
@@ -25,7 +30,15 @@ class HotkeyHandler:
         self.translation_service = translation_service
 
     def translate_and_replace(self) -> None:
-        """Translate selected text and replace it."""
+        """Translate selected text and replace it with the translation.
+        
+        This method:
+        1. Copies the currently selected text
+        2. Sends it to the translation service
+        3. Replaces the original text with the translation
+        
+        Logs warnings if no text is selected and errors if translation fails.
+        """
         text_to_translate = safe_copy_selected_text()
         logger.debug("Text to translate length: %d", len(text_to_translate))
 
@@ -52,7 +65,16 @@ class HotkeyHandler:
 
     @staticmethod
     def restart_program() -> None:
-        """Restart the program by launching run.ps1 and exiting."""
+        """Restart the program by launching run.ps1 and exiting.
+        
+        This method:
+        1. Unhooks all registered hotkeys
+        2. Launches the run.ps1 script to start a new instance
+        3. Exits the current process
+        
+        Raises:
+            SystemExit: Always exits after attempting restart
+        """
         logger.info("Restart hotkey triggered")
         script_dir = Path(__file__).parent
         run_script = script_dir / "run.ps1"

@@ -1,4 +1,11 @@
-"""Translation service for the input translation daemon."""
+"""Translation service for the input translation daemon.
+
+This module provides the translation functionality using the OpenAI API.
+It handles:
+- Initializing the OpenAI client with API credentials
+- Sending translation requests to the configured model
+- Processing and returning translated text
+"""
 
 import logging
 import os
@@ -13,7 +20,17 @@ logger = logging.getLogger(__name__)
 
 
 def get_client() -> OpenAI:
-    """Initialize and return an OpenAI client."""
+    """Initialize and return an OpenAI client.
+    
+    Loads the API_KEY from the .env file and creates an OpenAI client instance.
+    Exits the program if the API key is not found.
+    
+    Returns:
+        Configured OpenAI client instance
+        
+    Raises:
+        SystemExit: If API_KEY is not found in environment
+    """
     logger.debug("Loading environment variables from .env")
     load_dotenv()
     api_key = os.getenv("API_KEY")

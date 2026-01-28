@@ -1,7 +1,12 @@
-"""Configuration settings for the input translation daemon."""
+"""Configuration settings for the input translation daemon.
+
+This module contains all configurable constants for the application,
+including OpenAI model settings, hotkey bindings, timing parameters,
+and logging configuration.
+"""
 
 # OpenAI Settings
-MODEL = "gpt-4o-mini"
+MODEL = "gpt-4o-mini"  # OpenAI model to use for translation
 
 # Hotkey Settings
 TRANSLATE_HOTKEY = "ctrl+alt+t"
