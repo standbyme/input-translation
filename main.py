@@ -9,7 +9,7 @@ import pyperclip
 from dotenv import load_dotenv
 from openai import OpenAI
 
-MODEL = "gpt-5-mini"
+MODEL = "gpt-5-nano"
 
 
 logging.basicConfig(
@@ -41,7 +41,7 @@ client = get_client()
 
 def safe_copy_selected_text(delay: float = 1) -> str:
     """Copy selected text; restore clipboard on failure."""
-    time.sleep(0.1 * delay)
+    time.sleep(0.2 * delay)
     logger.debug("Starting safe copy")
     original_clipboard = pyperclip.paste()
     logger.debug("Captured original clipboard (%d chars)", len(original_clipboard))
@@ -54,11 +54,11 @@ def safe_copy_selected_text(delay: float = 1) -> str:
 
         keyboard.press_and_release("ctrl+a")
         logger.debug("Sent Ctrl+A to select all")
-        time.sleep(0.05 * delay)
+        time.sleep(0.1 * delay)
 
         keyboard.press_and_release("ctrl+c")
         logger.debug("Sent Ctrl+C to copy selection")
-        time.sleep(0.05 * delay)
+        time.sleep(0.1 * delay)
 
         copied_text = pyperclip.paste().strip()
         logger.debug("Clipboard still empty, retrying...")
@@ -106,13 +106,8 @@ def translate_and_replace():
         logger.debug("Sending translation request to model %s", MODEL)
         response = client.responses.create(
             model=MODEL,
-            input=[
-                {
-                    "role": "system",
-                    "content": "You are a professional translator. Translate the following text into natural, academic, and fluent English. Output ONLY the translation results.",
-                },
-                {"role": "user", "content": text_to_translate},
-            ],
+            instructions="You are a professional translator. Translate the following text into natural, academic, and fluent English. Output ONLY the translation results.",
+            input=text_to_translate,
             service_tier="priority",
         )
 
