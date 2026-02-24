@@ -26,4 +26,3 @@ $shortcut.Description = "Input Translation Tool"
 $shortcut.Save()
 
 Write-Host "Shortcut created successfully at: $shortcutPath"
-Write-Host "Hotkey is now handled by the Python program (Ctrl+Shift+T)"
