@@ -82,9 +82,9 @@ def safe_copy_selected_text(delay: float = 1) -> str:
 
         # Show progress indicator after successfully copying
         if copied_text:
-            keyboard.write(" translating...")
+            keyboard.write("translating...")
         else:
-            keyboard.write(" no text copied")
+            keyboard.write("no text copied")
 
         return copied_text
     finally:
@@ -134,11 +134,24 @@ def translate_and_replace():
         translated_text = response.output_text.strip()
         logger.debug("Received translated text length: %d", len(translated_text))
 
+        active_window = gw.getActiveWindow()
+        is_vscode = active_window and "Visual Studio Code" in active_window.title
+        logger.debug("Active window: %s, is VS Code: %s", active_window.title if active_window else "None", is_vscode)
+
+        if is_vscode:
+            # In VS Code, use Ctrl+X to cut selected text
+            keyboard.press_and_release("ctrl+x")
+            keyboard.press_and_release("enter")
+            keyboard.press_and_release("up")
+
+            logger.debug("Sent Ctrl+X to cut selection (VS Code)")
+        else:
+            keyboard.send("ctrl+a")
+
+        time.sleep(0.01)
         pyperclip.copy(translated_text)
         logger.debug("Copied translated text to clipboard")
 
-        keyboard.send("ctrl+a")
-        time.sleep(0.01)
         keyboard.press_and_release("ctrl+v")
         logger.debug("Replaced selected text with translation")
 
