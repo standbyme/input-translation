@@ -1,5 +1,6 @@
 import logging
 import os
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -99,7 +100,10 @@ def restart_program():
 
     try:
         logger.info("Launching restart via run.ps1")
-        os.system(f'powershell -NoProfile -ExecutionPolicy Bypass -File "{run_script}"')
+        subprocess.Popen(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(run_script)],
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
+        )
         logger.info("Exiting for restart")
     except Exception as e:
         logger.exception("Failed to restart: %s", e)
