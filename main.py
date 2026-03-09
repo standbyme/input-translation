@@ -62,6 +62,9 @@ def safe_copy_selected_text(delay: float = 1) -> str:
         if is_vscode:
             # In VS Code, use Ctrl+X to cut selected text
             keyboard.press_and_release("ctrl+x")
+            keyboard.press_and_release("enter")
+            keyboard.press_and_release("up")
+
             logger.debug("Sent Ctrl+X to cut selection (VS Code)")
         else:
             # In other apps, select all and copy
