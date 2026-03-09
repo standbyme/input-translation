@@ -7,6 +7,7 @@ requires-python = ">=3.14"
 dependencies = [
     "keyboard>=0.13.5",
     "openai>=2.15.0",
+    "pygetwindow>=0.0.9",
     "pyperclip>=1.11.0",
     "python-dotenv>=1.2.1",
 ]

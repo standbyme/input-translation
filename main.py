@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 
 import keyboard
+import pygetwindow as gw
 import pyperclip
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -52,16 +53,28 @@ def safe_copy_selected_text(delay: float = 1) -> str:
         copied_text = ""
         pyperclip.copy("")  # Clear clipboard before each attempt
 
-        keyboard.press_and_release("ctrl+a")
-        logger.debug("Sent Ctrl+A to select all")
-        time.sleep(0.1 * delay)
+        # Detect if VS Code is the active window
+        active_window = gw.getActiveWindow()
+        is_vscode = active_window and "Visual Studio Code" in active_window.title
+        logger.debug("Active window: %s, is VS Code: %s", active_window.title if active_window else "None", is_vscode)
 
-        keyboard.press_and_release("ctrl+c")
-        logger.debug("Sent Ctrl+C to copy selection")
+        if is_vscode:
+            # In VS Code, use Ctrl+X to cut selected text
+            keyboard.press_and_release("ctrl+x")
+            logger.debug("Sent Ctrl+X to cut selection (VS Code)")
+        else:
+            # In other apps, select all and copy
+            keyboard.press_and_release("ctrl+a")
+            logger.debug("Sent Ctrl+A to select all")
+            time.sleep(0.1 * delay)
+
+            keyboard.press_and_release("ctrl+c")
+            logger.debug("Sent Ctrl+C to copy selection")
+
         time.sleep(0.1 * delay)
 
         copied_text = pyperclip.paste().strip()
-        logger.debug("Clipboard still empty, retrying...")
+        logger.debug("Copied text length: %d", len(copied_text))
 
         # Show progress indicator after successfully copying
         if copied_text:
